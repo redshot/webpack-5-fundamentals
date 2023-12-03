@@ -18,6 +18,14 @@ module.exports = {
             presets: ['@babel/preset-env']
           }
         }
+      },
+      {
+        test: /\.scss$/i,
+        use: [
+        "style-loader",
+        "css-loader",
+        "sass-loader"
+      ],
       }
     ]
   },
@@ -48,6 +56,9 @@ module.exports = {
  * - exclude: /node_modules/: This excludes files from the node_modules directory.
  * - options: { presets: ['@babel/preset-env'] }: This configures Babel to use the @babel/preset-env preset, 
  *   which transpiles code to be compatible with older browsers.
+ * 
+ * - test: /\.scss$/i - a regular expression that tells webpack to run style-loaded, css-loader and sass-loader on .scss file 
+ *   extensions. The order of the these loaders is important.
  * 
  * * Polyfill
  * - @babel-polyfill is gonna handle features that are not available in older browsers.
