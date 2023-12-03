@@ -1,5 +1,6 @@
 const path = require('path'); // path comes from node and not from webpack
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
@@ -13,7 +14,7 @@ module.exports = {
         test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env']
           }
@@ -22,9 +23,13 @@ module.exports = {
       {
         test: /\.scss$/i,
         use: [
-        "style-loader",
-        "css-loader",
-        "sass-loader"
+        {
+          loader: MiniCssExtractPlugin.loader,
+          options: {}
+        },
+        'css-loader',
+        'postcss-loader',
+        'sass-loader'
       ],
       }
     ]
@@ -32,6 +37,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Development'
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css' // [name] is like a placeholder or we can hardcode the file as main.css or we can use any file name we want
     })
   ],
   output: {
@@ -57,7 +65,7 @@ module.exports = {
  * - options: { presets: ['@babel/preset-env'] }: This configures Babel to use the @babel/preset-env preset, 
  *   which transpiles code to be compatible with older browsers.
  * 
- * - test: /\.scss$/i - a regular expression that tells webpack to run style-loaded, css-loader and sass-loader on .scss file 
+ * - test: /\.scss$/i - a regular expression that tells webpack to run css-loader, postcss-loader and sass-loader on .scss file 
  *   extensions. The order of the these loaders is important.
  * 
  * * Polyfill
@@ -73,4 +81,15 @@ module.exports = {
  *  - As of Babel 7.4.0, @babel-polyfill has been deprecated in favor of directly including core-js/stable 
  *  (to polyfill ECMAScript features) and regenerator-runtime/runtime
  * 
+ * * PostCSS(autoprefixer) will automatically add vendor prefixes like ::-moz-placeholder{}, ::-ms-input-placeholder{} and webkit
+ *  - postcss.config.js is a configuration file for postcss
+ * - cssnano is a minifier and will compress our size. As a result, it will reduce file size
+ * - Rucksack CSS is a modular post-processing library for CSS that brings a collection of helpful features. It's built on PostCSS.
+ *  - One of its features is responsive typography. For example: .foo {font-size: responsive;}
+ *    - It will automatically adjust the font-size based on the screen size.
+ * 
+ * * What is .browserslistrc?
+ * - This tells autoprefixer which browsers to target. For example: "last 2 years > 1% not dead" means 
+ *   Target any browsers for the last 2 years. Greater than 1% in use and are not dead
+ * - 
  */
