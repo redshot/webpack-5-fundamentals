@@ -1,25 +1,14 @@
-const path = require('path'); // path comes from node and not from webpack
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common');
 
-module.exports = {
+module.exports = merge(common, {
   mode: 'development',
-  entry: './src/index.js',
   devtool: 'inline-source-map',
   devServer: {
     static: './dist'
   },
   module: {
     rules: [
-      {
-        test: /\.m?js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
-      },
       {
         test: /\.scss$/i,
         use: [
@@ -30,18 +19,10 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Development'
-    })
-  ],
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
-};
+});
 
 /**
+ * * Some configurations were removed in this file because it is existing in webpack.common.js already
  * - The command to run this app is "npm run dev" or "npm run build" or depending on the config in package.json
  * - Set module.exports and output property to an object
  * - The property "entry:" will tell webpack that everything it will bundle will come from "./src/index.js"
