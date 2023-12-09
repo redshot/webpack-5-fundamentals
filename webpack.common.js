@@ -87,4 +87,13 @@ module.exports = {
  * - ESLint can be used to check for a variety of problems, including: Syntax errors, Code style issues, Potential bugs
  *   and Best practices
  * - ESLint and prettier work well together
+ *
+ * * What is husky and lint staged?
+ * - Husky provides a simple way to manage and run Git hooks within your project.
+ *   For example: pre-commit: This hook runs before you commit any changes to your Git repository.
+ * - Lint-staged helps developers run linters and other tasks only on staged files in their Git repository
+ *  * What does ""lint-staged": {"./src/js/*.js": ["prettier --write","eslint src/js/*.js --fix-dry-run"]}" mean in package.json?
+ *    - The line means lint-staged will look at every single file in that directory that ends with .js then run pretteir and eslint
+ *      before a git commit. The "--fix-dry-run" will output any error/s.
+ *  - We will be able to see how Lint-staged works if we execute a git commit in the command line
  */
